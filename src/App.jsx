@@ -26,7 +26,7 @@ function App() {
   };
 
   const handleAsk = async (newMsg) => {
-    const result = await fetch('https://abang-fastapi.onrender.com',
+    const result = await fetch('https://abang-fastapi.onrender.com/ask',
       {
         method: 'POST',
         headers: {
