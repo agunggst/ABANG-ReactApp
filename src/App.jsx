@@ -26,24 +26,39 @@ function App() {
   };
 
   const handleAsk = async (newMsg) => {
-    const result = await fetch('https://abang-fastapi.onrender.com/ask',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ question: newMsg.text })
-      }
-    );
+    const timeoutMsg = setTimeout(() => {
+      const waitingMsg = {
+          id: messages.length + 1 + '-bot',
+          text: 'Hai! Mohon tunggu sebentar yaa, ABANG-nya lagi dibangunin dulu. Butuh waktu 2 - 5 menit.',
+          sender: 'bot',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+      setMessages([...messages, newMsg, waitingMsg]);
+    }, 5000);
 
-    const data = await result.json();
-    const newMsgBot = {
-      id: messages.length + 1 + '-bot',
-      text: data.answer,
-      sender: 'bot',
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    setMessages([...messages, newMsg, newMsgBot]);
+    try {
+      const result = await fetch('https://abang-fastapi.onrender.com/ask',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ question: newMsg.text })
+        }
+      );
+      const data = await result.json();
+      const newMsgBot = {
+        id: messages.length + 1 + '-bot',
+        text: data.answer,
+        sender: 'bot',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages([...messages, newMsg, newMsgBot]);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      clearTimeout(timeoutMsg);
+    }
   }
 
   useEffect(() => {
