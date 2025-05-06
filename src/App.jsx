@@ -175,7 +175,8 @@ const styles = {
     fontSize: '14px',
     maxWidth: '70%',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    fontFamily: 'Roboto, "Helvetica Neue", sans-serif'
+    fontFamily: 'Roboto, "Helvetica Neue", sans-serif',
+    whiteSpace: 'pre-line'
   },
   timestamp: {
     fontSize: '10px',
